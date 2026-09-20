@@ -205,3 +205,6 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Ignorar modelos que exceden el límite de 100MB de GitHub
+*voting_clf.joblib
