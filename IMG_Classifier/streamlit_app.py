@@ -46,19 +46,23 @@ if input_df is not None:
         current_row_index = event.selection.rows[0]
         current_row = input_df.iloc[current_row_index]
 
-        #TO-DO: Llama la clase de predicción para procesar la información
-        X, Y, Y_pred = None
-        #TO-DO: Obten el nombre de las clases
-        class_names = None
+        # Llama la clase de predicción para procesar la información
+        X, Y, Y_pred = ctrl.predict(current_row)
+        # Obten el nombre de las clases
+        class_names = ctrl.get_categories()
 
         col1, col2 = st.columns([1, 2])  
 
         with col1:
             st.caption("🗣 Your Prediction")
-            #TO-DO
+            fig, ax = plt.subplots(figsize=(2, 2))
+            ax.imshow(X.reshape(28, 28), cmap="gray")
+            ax.axis("off")
+            st.pyplot(fig)
 
         with col2:
             st.caption("🎯 Your results")
-            #TO-DO
-            st.metric("Real", "<Insert Value>")
-            st.metric("Prediction", "<Insert Value>")
+            real_val = class_names[int(Y)] if int(Y) < len(class_names) else str(Y)
+            pred_val = class_names[int(Y_pred)] if int(Y_pred) < len(class_names) else str(Y_pred)
+            st.metric("Real", real_val)
+            st.metric("Prediction", pred_val)

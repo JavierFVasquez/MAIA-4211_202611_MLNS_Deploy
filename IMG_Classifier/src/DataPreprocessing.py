@@ -13,8 +13,8 @@ class DataPreprocessing:
 
     def get_columns(self):
         print("DataPreprocessing.get_columns ->")
-        #TO-DO: Genera los nombres de las columnas en una lista para la variable res
-        res = []
+        # Genera los nombres de las columnas en una lista para la variable res
+        res = ["label"] + [f"pixel{i}" for i in range(1, self.MAX_PIXEL_COUNT + 1)]
 
         return set(res)
 

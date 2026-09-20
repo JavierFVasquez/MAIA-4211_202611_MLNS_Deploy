@@ -5,7 +5,8 @@ import os.path as osp
 import pandas as pd
 from io import StringIO
 
-#TO-DO. Importar la libreria joblib
+# Importar la libreria joblib
+import joblib
 from src.DataPreprocessing import DataPreprocessing
 
 class ModelController:
@@ -19,10 +20,10 @@ class ModelController:
         self.scaler_path = osp.join(self.model_path, "scaler.joblib")
         self.model_path = osp.join(self.model_path, "model.joblib")
 
-        #TO-DO: Cargar los modelos
-        self.pca = None
-        self.scaler = None
-        self.model = None
+        # Cargar los modelos
+        self.pca = joblib.load(self.pca_path)
+        self.scaler = joblib.load(self.scaler_path)
+        self.model = joblib.load(self.model_path)
 
         # Inicializar variables
         self.input_df = ""
@@ -52,12 +53,12 @@ class ModelController:
         print("ModelController.predict ->")
         X = data[1:].to_numpy()
         Y = data.iloc[0]
-        #TO-DO: Escala los datos
-        X_scaled = None
-        #TO-DO: Reduce los datos
-        X_reduced = None
-        #TO-DO: Genera la predicción
-        y_pred = None
+        # Escala los datos
+        X_scaled = self.scaler.transform([X])
+        # Reduce los datos
+        X_reduced = self.pca.transform(X_scaled)
+        # Genera la predicción
+        y_pred = self.model.predict(X_reduced)[0]
         
         return X, Y, y_pred
 
